@@ -14,6 +14,7 @@ public class LaptopCircleIcon extends StackPane {
     public LaptopCircleIcon() {
         circle.setFill(Color.DODGERBLUE);
         icon.setIconColor(Color.WHITE);
+        icon.iconSizeProperty().bind(circle.radiusProperty().multiply(0.5));
         getChildren().addAll(circle, icon);
     }
 
