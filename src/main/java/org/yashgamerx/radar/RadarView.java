@@ -15,12 +15,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 public class RadarView extends AnchorPane {
 
+    // Colors
     private final Color bgSlate800 = Color.rgb(30, 41, 59);
     private final Color bgSlate900 = Color.rgb(15 ,23, 42);
     private final Color emerald = Color.rgb(16, 185, 129, 0.2f);
+    private final Color bgBlue600 = Color.rgb(37, 99, 235);
+
+    //Bindings
     private final DoubleBinding centerXProperty;
     private final DoubleBinding centerYProperty;
 
@@ -32,6 +37,7 @@ public class RadarView extends AnchorPane {
         defineBackgroundColor();
         makeHorizontalLine();
         makeVerticalLine();
+        createLaptopIcon();
         createFirstCircle();
         createSecondCircle();
         createRadarPulse(Duration.ZERO);
@@ -78,6 +84,17 @@ public class RadarView extends AnchorPane {
 
         verticalLine.setStrokeWidth(1);
         this.getChildren().add(verticalLine);
+    }
+
+    private void createLaptopIcon() {
+        LaptopCircleIcon laptop = new LaptopCircleIcon();
+        laptop.setManaged(false);
+        laptop.radiusProperty().bind(
+                Bindings.min(widthProperty(), heightProperty()).divide(20)
+        );
+        laptop.layoutXProperty().bind(centerXProperty);
+        laptop.layoutYProperty().bind(centerYProperty);
+        getChildren().add(laptop);
     }
 
     private void createFirstCircle() {
