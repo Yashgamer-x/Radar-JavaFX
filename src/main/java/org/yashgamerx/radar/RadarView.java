@@ -1,16 +1,18 @@
 package org.yashgamerx.radar;
 
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 public class RadarView extends AnchorPane {
 
-    private final Color bgSlate800_40 = Color.rgb(30, 41, 59, 0.4f);
+    private final Color bgSlate800 = Color.rgb(30, 41, 59);
     private final Color bgSlate900 = Color.rgb(15 ,23, 42);
 
 
@@ -18,6 +20,7 @@ public class RadarView extends AnchorPane {
         defineBackgroundColor();
         makeHorizontalLine();
         makeVerticalLine();
+        createFirstCircle();
     }
 
     private void defineBackgroundColor() {
@@ -38,7 +41,7 @@ public class RadarView extends AnchorPane {
         horizontalLine.endYProperty().bind(centerYBinding);
 
         // Setting Color
-        horizontalLine.setStroke(bgSlate800_40);
+        horizontalLine.setStroke(bgSlate800);
 
         horizontalLine.setStrokeWidth(1);
         this.getChildren().add(horizontalLine);
@@ -58,10 +61,27 @@ public class RadarView extends AnchorPane {
         verticalLine.endYProperty().bind(bottomMostYCoordinateBinding);
 
         // Setting Color
-        verticalLine.setStroke(bgSlate800_40);
+        verticalLine.setStroke(bgSlate800);
 
         verticalLine.setStrokeWidth(1);
         this.getChildren().add(verticalLine);
+    }
+
+    private void createFirstCircle() {
+        var circle = new Circle();
+
+        circle.centerXProperty().bind(widthProperty().divide(2));
+        circle.centerYProperty().bind(heightProperty().divide(2));
+
+        circle.radiusProperty().bind(
+                Bindings.min(widthProperty(), heightProperty()).divide(10)
+        );
+
+        circle.setStroke(bgSlate800);
+        circle.setStrokeWidth(1);
+        circle.setFill(Color.TRANSPARENT);
+
+        getChildren().add(circle);
     }
 
 }
