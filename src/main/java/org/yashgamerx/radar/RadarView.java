@@ -1,5 +1,9 @@
 package org.yashgamerx.radar;
 
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
@@ -9,6 +13,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 
 public class RadarView extends AnchorPane {
 
@@ -22,8 +27,7 @@ public class RadarView extends AnchorPane {
         makeVerticalLine();
         createFirstCircle();
         createSecondCircle();
-        createThirdCircle();
-        createFourthCircle();
+        createRadarPulse();
     }
 
     private void defineBackgroundColor() {
@@ -105,40 +109,36 @@ public class RadarView extends AnchorPane {
         getChildren().add(circle);
     }
 
-    private void createThirdCircle() {
-        var circle = new Circle();
+    private void createRadarPulse() {
+        Circle pulse = new Circle();
 
+        pulse.centerXProperty().bind(widthProperty().divide(2));
+        pulse.centerYProperty().bind(heightProperty().divide(2));
 
-        circle.centerXProperty().bind(widthProperty().divide(2));
-        circle.centerYProperty().bind(heightProperty().divide(2));
-
-        circle.radiusProperty().bind(
+        pulse.radiusProperty().bind(
                 Bindings.min(widthProperty(), heightProperty()).divide(3.75)
         );
 
-        circle.setStroke(bgSlate800);
-        circle.setStrokeWidth(1);
-        circle.setFill(Color.TRANSPARENT);
+        pulse.setStroke(Color.LIMEGREEN);
+        pulse.setFill(Color.TRANSPARENT);
+        pulse.setStrokeWidth(2);
 
-        getChildren().add(circle);
-    }
+        getChildren().add(pulse);
 
-    private void createFourthCircle() {
-        var circle = new Circle();
+        var scale = new ScaleTransition(Duration.seconds(2), pulse);
+        scale.setFromX(1.0);
+        scale.setFromY(1.0);
+        scale.setToX(1.5);      // 3.75 → 2.5
+        scale.setToY(1.5);
 
+        var fade = new FadeTransition(Duration.seconds(2), pulse);
+        fade.setFromValue(0.9);
+        fade.setToValue(0.0);
 
-        circle.centerXProperty().bind(widthProperty().divide(2));
-        circle.centerYProperty().bind(heightProperty().divide(2));
+        var animation = new ParallelTransition(scale, fade);
 
-        circle.radiusProperty().bind(
-                Bindings.min(widthProperty(), heightProperty()).divide(2.5)
-        );
-
-        circle.setStroke(bgSlate800);
-        circle.setStrokeWidth(1);
-        circle.setFill(Color.TRANSPARENT);
-
-        getChildren().add(circle);
+        animation.setCycleCount(Animation.INDEFINITE);
+        animation.play();
     }
 
 }
