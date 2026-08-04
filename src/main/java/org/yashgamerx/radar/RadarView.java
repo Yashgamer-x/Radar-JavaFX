@@ -22,7 +22,6 @@ public class RadarView extends Pane {
     private final Color bgSlate800 = Color.rgb(30, 41, 59);
     private final Color bgSlate900 = Color.rgb(15 ,23, 42);
     private final Color emerald = Color.rgb(16, 185, 129, 0.2f);
-    private final Color bgBlue600 = Color.rgb(37, 99, 235);
 
     //Bindings
     private final DoubleBinding centerXProperty;
