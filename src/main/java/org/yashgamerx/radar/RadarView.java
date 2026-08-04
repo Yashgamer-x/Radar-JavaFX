@@ -19,6 +19,7 @@ public class RadarView extends AnchorPane {
 
     private final Color bgSlate800 = Color.rgb(30, 41, 59);
     private final Color bgSlate900 = Color.rgb(15 ,23, 42);
+    private final Color emerald = Color.rgb(16, 185, 129, 0.2f);
 
 
     public RadarView() {
@@ -27,7 +28,8 @@ public class RadarView extends AnchorPane {
         makeVerticalLine();
         createFirstCircle();
         createSecondCircle();
-        createRadarPulse();
+        createRadarPulse(Duration.ZERO);
+        createRadarPulse(Duration.seconds(2));
     }
 
     private void defineBackgroundColor() {
@@ -109,7 +111,7 @@ public class RadarView extends AnchorPane {
         getChildren().add(circle);
     }
 
-    private void createRadarPulse() {
+    private void createRadarPulse(Duration delay) {
         Circle pulse = new Circle();
 
         pulse.centerXProperty().bind(widthProperty().divide(2));
@@ -119,25 +121,26 @@ public class RadarView extends AnchorPane {
                 Bindings.min(widthProperty(), heightProperty()).divide(3.75)
         );
 
-        pulse.setStroke(Color.LIMEGREEN);
-        pulse.setFill(Color.TRANSPARENT);
+        pulse.setStroke(emerald);
         pulse.setStrokeWidth(2);
+        pulse.setFill(Color.TRANSPARENT);
+        pulse.setOpacity(0);
 
         getChildren().add(pulse);
 
-        var scale = new ScaleTransition(Duration.seconds(2), pulse);
+        ScaleTransition scale = new ScaleTransition(Duration.seconds(4), pulse);
         scale.setFromX(1.0);
         scale.setFromY(1.0);
-        scale.setToX(1.5);      // 3.75 → 2.5
+        scale.setToX(1.5);
         scale.setToY(1.5);
 
-        var fade = new FadeTransition(Duration.seconds(2), pulse);
-        fade.setFromValue(0.9);
+        FadeTransition fade = new FadeTransition(Duration.seconds(4), pulse);
+        fade.setFromValue(0.8);
         fade.setToValue(0.0);
 
-        var animation = new ParallelTransition(scale, fade);
-
+        ParallelTransition animation = new ParallelTransition(scale, fade);
         animation.setCycleCount(Animation.INDEFINITE);
+        animation.setDelay(delay);
         animation.play();
     }
 
