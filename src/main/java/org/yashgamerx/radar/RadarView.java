@@ -1,20 +1,30 @@
 package org.yashgamerx.radar;
 
+import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class RadarView extends AnchorPane {
 
     private final Color bgSlate800_40 = Color.rgb(30, 41, 59, 0.4f);
+    private final Color bgSlate900 = Color.rgb(15 ,23, 42);
 
 
     public RadarView() {
+        defineBackgroundColor();
         makeHorizontalLine();
         makeVerticalLine();
     }
 
-    public void makeHorizontalLine(){
+    private void defineBackgroundColor() {
+        this.setBackground(new Background(new BackgroundFill(bgSlate900, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    public void makeHorizontalLine() {
         var horizontalLine = new Line();
 
         // X Coordinates
@@ -34,7 +44,7 @@ public class RadarView extends AnchorPane {
         this.getChildren().add(horizontalLine);
     }
 
-    public void makeVerticalLine(){
+    public void makeVerticalLine() {
         var verticalLine = new Line();
 
         // X Coordinates
