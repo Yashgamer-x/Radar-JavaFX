@@ -7,17 +7,16 @@ import javafx.animation.ScaleTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Insets;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
-import org.kordamp.ikonli.javafx.FontIcon;
 
-public class RadarView extends AnchorPane {
+public class RadarView extends Pane {
 
     // Colors
     private final Color bgSlate800 = Color.rgb(30, 41, 59);
