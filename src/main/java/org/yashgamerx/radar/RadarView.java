@@ -5,6 +5,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -20,9 +21,14 @@ public class RadarView extends AnchorPane {
     private final Color bgSlate800 = Color.rgb(30, 41, 59);
     private final Color bgSlate900 = Color.rgb(15 ,23, 42);
     private final Color emerald = Color.rgb(16, 185, 129, 0.2f);
+    private final DoubleBinding centerXProperty;
+    private final DoubleBinding centerYProperty;
 
 
     public RadarView() {
+        this.centerXProperty = this.widthProperty().divide(2);
+        this.centerYProperty = this.heightProperty().divide(2);
+
         defineBackgroundColor();
         makeHorizontalLine();
         makeVerticalLine();
@@ -45,9 +51,8 @@ public class RadarView extends AnchorPane {
         horizontalLine.endXProperty().bind(rightMostXCoordinateBinding);
 
         // Y Coordinates
-        var centerYBinding = this.heightProperty().divide(2);
-        horizontalLine.startYProperty().bind(centerYBinding);
-        horizontalLine.endYProperty().bind(centerYBinding);
+        horizontalLine.startYProperty().bind(centerYProperty);
+        horizontalLine.endYProperty().bind(centerYProperty);
 
         // Setting Color
         horizontalLine.setStroke(bgSlate800);
@@ -60,9 +65,8 @@ public class RadarView extends AnchorPane {
         var verticalLine = new Line();
 
         // X Coordinates
-        var centerXBinding = this.widthProperty().divide(2);
-        verticalLine.startXProperty().bind(centerXBinding);
-        verticalLine.endXProperty().bind(centerXBinding);
+        verticalLine.startXProperty().bind(centerXProperty);
+        verticalLine.endXProperty().bind(centerXProperty);
 
         // Y Coordinates
         verticalLine.setStartY(0);
@@ -79,8 +83,8 @@ public class RadarView extends AnchorPane {
     private void createFirstCircle() {
         var circle = new Circle();
 
-        circle.centerXProperty().bind(widthProperty().divide(2));
-        circle.centerYProperty().bind(heightProperty().divide(2));
+        circle.centerXProperty().bind(centerXProperty);
+        circle.centerYProperty().bind(centerYProperty);
 
         circle.radiusProperty().bind(
                 Bindings.min(widthProperty(), heightProperty()).divide(10)
@@ -97,8 +101,8 @@ public class RadarView extends AnchorPane {
         var circle = new Circle();
 
 
-        circle.centerXProperty().bind(widthProperty().divide(2));
-        circle.centerYProperty().bind(heightProperty().divide(2));
+        circle.centerXProperty().bind(centerXProperty);
+        circle.centerYProperty().bind(centerYProperty);
 
         circle.radiusProperty().bind(
                 Bindings.min(widthProperty(), heightProperty()).divide(5)
@@ -114,8 +118,8 @@ public class RadarView extends AnchorPane {
     private void createRadarPulse(Duration delay) {
         Circle pulse = new Circle();
 
-        pulse.centerXProperty().bind(widthProperty().divide(2));
-        pulse.centerYProperty().bind(heightProperty().divide(2));
+        pulse.centerXProperty().bind(centerXProperty);
+        pulse.centerYProperty().bind(centerYProperty);
 
         pulse.radiusProperty().bind(
                 Bindings.min(widthProperty(), heightProperty()).divide(3.75)
