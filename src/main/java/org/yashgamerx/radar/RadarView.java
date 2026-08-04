@@ -22,6 +22,8 @@ public class RadarView extends AnchorPane {
         makeVerticalLine();
         createFirstCircle();
         createSecondCircle();
+        createThirdCircle();
+        createFourthCircle();
     }
 
     private void defineBackgroundColor() {
@@ -94,6 +96,42 @@ public class RadarView extends AnchorPane {
 
         circle.radiusProperty().bind(
                 Bindings.min(widthProperty(), heightProperty()).divide(5)
+        );
+
+        circle.setStroke(bgSlate800);
+        circle.setStrokeWidth(1);
+        circle.setFill(Color.TRANSPARENT);
+
+        getChildren().add(circle);
+    }
+
+    private void createThirdCircle() {
+        var circle = new Circle();
+
+
+        circle.centerXProperty().bind(widthProperty().divide(2));
+        circle.centerYProperty().bind(heightProperty().divide(2));
+
+        circle.radiusProperty().bind(
+                Bindings.min(widthProperty(), heightProperty()).divide(3.75)
+        );
+
+        circle.setStroke(bgSlate800);
+        circle.setStrokeWidth(1);
+        circle.setFill(Color.TRANSPARENT);
+
+        getChildren().add(circle);
+    }
+
+    private void createFourthCircle() {
+        var circle = new Circle();
+
+
+        circle.centerXProperty().bind(widthProperty().divide(2));
+        circle.centerYProperty().bind(heightProperty().divide(2));
+
+        circle.radiusProperty().bind(
+                Bindings.min(widthProperty(), heightProperty()).divide(2.5)
         );
 
         circle.setStroke(bgSlate800);
